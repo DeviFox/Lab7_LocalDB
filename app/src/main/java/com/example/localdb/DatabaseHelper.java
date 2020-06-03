@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.database.Cursor;
 import android.widget.TextView;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -21,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 
      }
     @Override
@@ -47,4 +48,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+    /**
+     * Returns data from database
+     */
+    public Cursor getData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query,null);
+        return data;
+    }
+
 }

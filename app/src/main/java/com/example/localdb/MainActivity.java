@@ -1,7 +1,10 @@
 package com.example.localdb;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,9 +26,39 @@ public class MainActivity extends AppCompatActivity {
         btn_open = (Button) findViewById(R.id.btn_open);
         mDatabaseHelper = new DatabaseHelper(this);
 
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newEntry = edText.getText().toString();
+                if (edText.length() !=0) {
+                    AddData(newEntry);
+                    edText.setText("");
+
+                } else {
+                    toastMessage("Text field can't be empty!");
+                }
+            }
+        });
+
+        btn_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListDataActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
     public void AddData(String newEntry) {
         boolean insertData = mDatabaseHelper.addData(newEntry);
+
+        if (insertData) {
+            toastMessage("Data inserted!");
+        } else {
+            toastMessage("Something went wrong");
+        }
     }
 
 
